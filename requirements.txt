@@ -1,7 +1,6 @@
-Package        Version
--------------- -------
-iso8601        1.1.0
-pip            22.0.2
-pytz           2022.5
-setuptools     59.6.0
-zope.interface 5.5.0
+Package    Version
+---------- -------
+dnspython  2.2.1
+pip        22.0.2
+pymongo    4.3.2
+setuptools 59.6.0
