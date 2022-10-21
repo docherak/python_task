@@ -38,7 +38,7 @@ def parse(dic: dict, _id: int) -> dict:
 def main() -> None:
     
     # Database connection:
-    cluster = MongoClient("mongodb+srv://admin:pepega@cluster0.gbnhq7y.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient("mongodb+srv://admin:<PASSWORD>@cluster0.gbnhq7y.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["test"]
     collection = db["test"]
 
