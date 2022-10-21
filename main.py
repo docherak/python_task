@@ -37,8 +37,8 @@ def parse(dic: dict, _id: int) -> dict:
 
 def main() -> None:
     
-    # Database connection (edit):
-    cluster = MongoClient("mongodb+srv://admin:<PASSWORD>@cluster0.gbnhq7y.mongodb.net/?retryWrites=true&w=majority")
+    # Database connection:
+    cluster = MongoClient("mongodb+srv://admin:pepega@cluster0.gbnhq7y.mongodb.net/?retryWrites=true&w=majority")
     db = cluster["test"]
     collection = db["test"]
 
@@ -46,11 +46,9 @@ def main() -> None:
     profiles = []
     with open(sys.argv[1], "r") as datafile:
         data = json.loads(datafile.read())
-        _id = 0
     
-        for dic in data:
-            profiles.append(parse(dic, _id))
-            _id += 1
+        for idx, item in enumerate(data):
+            profiles.append(parse(item, idx))
 
         collection.insert_many(profiles)
 
