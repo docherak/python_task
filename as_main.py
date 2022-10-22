@@ -2,6 +2,7 @@
 try:
     import sys
     import json
+    import asyncio
     from datetime import datetime, timezone
     import pymongo
     from pymongo import MongoClient
@@ -15,7 +16,7 @@ db = cluster["test"]
 collection = db["test"]
 
 # Functions:
-def parse(dic: dict, _id: int) -> dict:
+async def parse(dic: dict, _id: int) -> dict:
     
     new_item = {}
     
@@ -37,21 +38,24 @@ def parse(dic: dict, _id: int) -> dict:
                 addrlst.append(adapt["address"])
     
         new_item["addresses"] = addrlst
-    
     return new_item
 
-def main() -> None:
+async def main() -> None:
     
     # Parsing:
     profiles = []
     with open(sys.argv[1], "r") as datafile:
         data = json.loads(datafile.read())
     
-        for idx, item in enumerate(data):
-            profiles.append(parse(item, idx))
+#        cors = [parse(item, idx) for idx, item in enumerate(data)]
+#        for cor in asyncio.as_completed(cors):
+#            collection.insert_one(await cor)
 
-        collection.insert_many(profiles)
+        tasks = [asyncio.create_task(parse(item, idx)) for idx, item in enumerate(data)]
+        results = asyncio.gather(*tasks)
+        collection.insert_many(await results)
+#        print(await results)
 
 # Main:
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
